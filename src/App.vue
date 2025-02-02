@@ -1,16 +1,36 @@
 <template>
   <div id="app" class="app">
-    <div class="card">
-      <WeatherTitle />
-    </div>
-    <div class="footer-title">
-      <h3>Footer</h3>
+    <transition name="fade" mode="out-in" appear>
+      <div class="card">
+        <WeatherTitle />
+        <WeatherSearch />
+        <WeatherCard />
+        <WeatherDescriptions />
+        <WeatherAnimate />
+      </div>
+    </transition>
+    <div class="footer-text">
+      <a href="https://github.com/dogukanbatal/vue-weather-app" target="_blank" class="link">
+        <span>Github Repository</span>
+      </a>
     </div>
   </div>
 </template>
 
 <script setup>
-import WeatherTitle from "./WeatherTitle.vue";
+import WeatherTitle from "./components/WeatherTitle.vue";
+import WeatherCard from "./components/WeatherCard.vue";
+import WeatherDescriptions from "./components/WeatherDescriptions.vue";
+import WeatherSearch from "./components/WeatherSearch.vue";
+import WeatherAnimate from "./components/WeatherAnimate.vue";
+import { onMounted } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore();
+
+onMounted(() => {
+  store.dispatch('fetchWeatherData', store.state.defaultSearch); // Загрузка данных о погоде
+});
 </script>
 
 <style lang="less">

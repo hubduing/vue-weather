@@ -1,23 +1,24 @@
 <template>
-    <div class="weather-description">
-      <div class="weather-item" title="Wind">
-        <WindIcon size="1.7x" class="icon"></WindIcon>
-        <span class="value">{{ getWeatherInfo.wind }} km/h</span>
-      </div>
-      <div class="weather-item" title="Humidity">
-        <DropletIcon size="1.4x" class="icon"></DropletIcon>
-        <span class="value">{{ getWeatherInfo.humidity }}%</span>
-      </div>
-      <div class="weather-item" title="Cloud Cover">
-        <CloudIcon size="1.7x" class="icon"></CloudIcon>
-        <span class="value">{{ getWeatherInfo.clouds }}%</span>
-      </div>
-      <div class="weather-item" title="Temperature">
-        <TemperatureIcon size="1.7x" class="icon"></TemperatureIcon>
-        <span class="value">{{ getWeatherInfo.temperature }} °C</span>
-      </div>
+  <div class="weather-description">
+    <div class="weather-item" title="Wind" v-if="getWeatherInfo">
+      <WindIcon size="1.7x" class="icon"></WindIcon>
+      <span class="value">{{ getWeatherInfo.wind || "N/A" }} km/h</span>
     </div>
-  </template>
+    <div class="weather-item" title="Humidity" v-if="getWeatherInfo">
+      <DropletIcon size="1.4x" class="icon"></DropletIcon>
+      <span class="value">{{ getWeatherInfo.humidity || "N/A" }}%</span>
+    </div>
+    <div class="weather-item" title="Cloud Cover" v-if="getWeatherInfo">
+      <CloudIcon size="1.7x" class="icon"></CloudIcon>
+      <span class="value">{{ getWeatherInfo.clouds || "N/A" }}%</span>
+    </div>
+    <div class="weather-item" title="Temperature" v-if="getWeatherInfo">
+      <TemperatureIcon size="1.7x" class="icon"></TemperatureIcon>
+      <span class="value">{{ getWeatherInfo.temperature || "N/A" }} °C</span>
+    </div>
+  </div>
+</template>
+
   
   <script>
   import { DropletIcon, WindIcon, CloudIcon, TemperatureIcon } from "vue-feather-icons";
@@ -31,7 +32,7 @@
       TemperatureIcon
     },
     computed: {
-      ...mapGetters(["getWeatherInfo"])
+      ...mapGetters(["weatherInfo"])
     }
   };
   </script>

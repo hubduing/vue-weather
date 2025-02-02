@@ -1,29 +1,36 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import { createStore } from "vuex";
 import axios from "axios";
 
-Vue.use(Vuex);
-
-const store = new Vuex.Store({
+const store = createStore({
   state: {
     apiBase: "https://api.openweathermap.org/data/3.0/",
-    apiKey: "YOUR_API_KEY", // Замените на ваш API ключ
-    defaultSearch: "Moskow",
+    apiKey: process.env.VUE_APP_API_KEY,
+    defaultSearch: "Moscow",
     search: "",
     isError: false,
-    weatherData: {},
+    weatherData: {
+      temp: null,
+      feelsLike: null,
+      description: null,
+      icon: null,
+      info: null,
+      wind: null,
+      humidity: null,
+      clouds: null,
+      country: null,
+    },
   },
   getters: {
     weatherMain(state) {
-      const { temp, feelsLike, description, icon, info } = state.weatherData;
+      const { temp, feelsLike, description, icon, info } = state.weatherData || {};
       return { temp, feelsLike, description, icon, info };
     },
     weatherInfo(state) {
-      const { wind, clouds, humidity } = state.weatherData;
+      const { wind, clouds, humidity } = state.weatherData || {};
       return { wind, clouds, humidity };
     },
     weatherCountry(state) {
-      return state.weatherData.country;
+      return state.weatherData.country || null;
     },
     isSearched(state) {
       return !!state.search;
@@ -72,7 +79,17 @@ const store = new Vuex.Store({
       } catch (error) {
         console.error("Error fetching weather data:", error);
         commit("SET_ERROR", true);
-        commit("SET_WEATHER_DATA", {});
+        commit("SET_WEATHER_DATA", {
+          temp: null,
+          feelsLike: null,
+          description: null,
+          icon: null,
+          info: null,
+          wind: null,
+          humidity: null,
+          clouds: null,
+          country: null,
+        });
       }
     },
   },
